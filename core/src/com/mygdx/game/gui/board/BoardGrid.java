@@ -5,12 +5,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.mygdx.game.gui.intersection.Intersection;
 
 /**
  * Represent Board Grid.
  */
 public class BoardGrid extends Actor {
-    private static final int SQUARE_SIZE = 39;
+    public static final int SQUARE_SIZE = 39;
     private static final int NUMBER_OF_SQUARES = 14;
     private static final int LINE_WIDTH = 3;
     private ShapeRenderer shape;
