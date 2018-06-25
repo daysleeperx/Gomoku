@@ -8,21 +8,57 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.game.board.Board;
+import com.mygdx.game.game.Game;
 import com.mygdx.game.gui.board.BoardFrame;
 import com.mygdx.game.gui.board.BoardGrid;
 import com.mygdx.game.gui.intersection.Intersection;
 import com.mygdx.game.gui.intersection.IntersectionValue;
+import com.mygdx.game.move.Coordinate;
+import com.mygdx.game.player.Computer;
+
+import java.util.Arrays;
 
 import static com.mygdx.game.gui.board.BoardGrid.SQUARE_SIZE;
 
 public class GdxGame extends ApplicationAdapter implements InputProcessor {
+    /**
+     * Current Game,
+     */
+    private Game game;
     private Stage stage;
     private BoardFrame boardFrame;
     private BoardGrid grid;
     private IntersectionValue sideToMove;
+    /**
+     * Current player (Human):
+     */
+    private IntersectionValue currentPlayer;
+
+    /**
+     * Computer opponent.
+     */
+    private Computer computer;
+
+    /**
+     * Board associated with the game.
+     */
+    private Board board;
+
+    /**
+     * Array of intersections to make/ keep track of changes.
+     */
+    private Intersection[][] intersections;
+
 
     @Override
     public void create() {
+        game = new Game();
+        game.createGame();
+        board = game.getBoard();
+        intersections = new Intersection[board.getWidth()][board.getHeight()];
+        computer = new Computer();
+        currentPlayer = IntersectionValue.WHITE;
         stage = new Stage(new ScreenViewport());
         boardFrame = new BoardFrame();
         grid = new BoardGrid();
@@ -35,12 +71,15 @@ public class GdxGame extends ApplicationAdapter implements InputProcessor {
         stage.addActor(grid);
 
         // add intersections
-        for (int row = 0; row < 15; row++) {
-            for (int col = 0; col < 15; col++) {
-                stage.addActor(new Intersection((int) (grid.getX() + col * SQUARE_SIZE), (int) (grid.getY() + row * SQUARE_SIZE)));
+        for (int row = 0; row < board.getWidth(); row++) {
+            for (int col = 0; col < board.getHeight(); col++) {
+                Intersection current = new Intersection((int) (grid.getY() + row * SQUARE_SIZE), (int) (grid.getX() + col * SQUARE_SIZE));
+                stage.addActor(current);
+                intersections[row][col] = current;
             }
         }
-
+        System.out.println(Arrays.deepToString(intersections));
+        board.printBoard();
         Gdx.input.setInputProcessor(this);
     }
 
@@ -49,6 +88,16 @@ public class GdxGame extends ApplicationAdapter implements InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
+
+        if (sideToMove == IntersectionValue.BLACK) {
+            Coordinate move = computer.getMove(board, sideToMove.getValue());
+            System.out.println(move);
+            Intersection intersection = intersections[move.getRow()][move.getCol()];
+            intersection.setValue(IntersectionValue.BLACK);
+            board.setValue(move.getRow(), move.getCol(), -1);
+            board.printBoard();
+            sideToMove = IntersectionValue.WHITE;
+        }
     }
 
     @Override
@@ -104,10 +153,12 @@ public class GdxGame extends ApplicationAdapter implements InputProcessor {
         Vector2 coord = stage.screenToStageCoordinates(new Vector2((float) screenX, (float) screenY));
         Actor currentActor = stage.hit(coord.x, coord.y, false);
 
-        if (currentActor != null && currentActor instanceof Intersection) {
+        if (sideToMove == currentPlayer && currentActor != null && currentActor instanceof Intersection) {
             if (((Intersection) currentActor).isEmpty()) {
-                ((Intersection) currentActor).setValue(sideToMove);
-                sideToMove = (sideToMove == IntersectionValue.WHITE) ? IntersectionValue.BLACK: IntersectionValue.WHITE;
+                ((Intersection) currentActor).setValue(IntersectionValue.WHITE);
+                board.printBoard();
+                sideToMove = IntersectionValue.BLACK;
+                // TODO: coordinates to intersections array
             }
         }
         return true;
@@ -163,5 +214,6 @@ public class GdxGame extends ApplicationAdapter implements InputProcessor {
         return false;
     }
 }
+
 
 

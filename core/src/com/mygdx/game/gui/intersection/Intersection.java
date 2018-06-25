@@ -15,7 +15,7 @@ public class Intersection extends Actor {
     private boolean clicked;
     private IntersectionValue value;
 
-    public Intersection(int x, int y) {
+    public Intersection(int y, int x) {
         this.width = 20;
         this.height = 20;
         this.x = x;
@@ -77,5 +77,10 @@ public class Intersection extends Actor {
 
             batch.begin();
         }
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%d, %d)", y, x);
     }
 }
