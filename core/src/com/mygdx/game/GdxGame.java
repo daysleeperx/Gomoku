@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygdx.game.gui.board.Board;
+import com.mygdx.game.gui.board.BoardFrame;
 import com.mygdx.game.gui.board.BoardGrid;
 import com.mygdx.game.gui.intersection.Intersection;
 import com.mygdx.game.gui.intersection.IntersectionValue;
@@ -17,21 +17,21 @@ import static com.mygdx.game.gui.board.BoardGrid.SQUARE_SIZE;
 
 public class GdxGame extends ApplicationAdapter implements InputProcessor {
     private Stage stage;
-    private Board board;
+    private BoardFrame boardFrame;
     private BoardGrid grid;
     private IntersectionValue sideToMove;
 
     @Override
     public void create() {
         stage = new Stage(new ScreenViewport());
-        board = new Board();
+        boardFrame = new BoardFrame();
         grid = new BoardGrid();
         sideToMove = IntersectionValue.WHITE;
-        board.setPosition(Gdx.graphics.getWidth() / 2 - board.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - board.getHeight() / 2);
+        boardFrame.setPosition(Gdx.graphics.getWidth() / 2 - boardFrame.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - boardFrame.getHeight() / 2);
         grid.setPosition(Gdx.graphics.getWidth() / 2 - grid.getWidth() / 2,
                 Gdx.graphics.getHeight() / 2 - grid.getHeight() / 2);
-        stage.addActor(board);
+        stage.addActor(boardFrame);
         stage.addActor(grid);
 
         // add intersections
@@ -163,4 +163,5 @@ public class GdxGame extends ApplicationAdapter implements InputProcessor {
         return false;
     }
 }
+
 

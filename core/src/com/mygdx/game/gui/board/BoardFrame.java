@@ -7,14 +7,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- * Represent Board frame.
+ * Represent BoardFrame frame.
  */
-public class Board extends Actor {
+public class BoardFrame extends Actor {
 
     private ShapeRenderer shape;
     private float width, height;
 
-    public Board() {
+    public BoardFrame() {
         this.shape = new ShapeRenderer();
         this.shape.setAutoShapeType(true);
 

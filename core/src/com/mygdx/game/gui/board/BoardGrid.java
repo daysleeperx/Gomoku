@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.gui.intersection.Intersection;
 
 /**
- * Represent Board Grid.
+ * Represent BoardFrame Grid.
  */
 public class BoardGrid extends Actor {
     public static final int SQUARE_SIZE = 39;
