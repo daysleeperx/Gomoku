@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.title = "Gomoku 1.0";
 		config.width = 1000;
 		config.height = 800;
+//		config.resizable = false;
 		new LwjglApplication(new GdxGame(), config);
 	}
 }

@@ -8,15 +8,34 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.gui.intersection.Intersection;
 
 /**
- * Represent BoardFrame Grid.
+ * Represent Board Grid.
+ * Grid is drawn inside the BoardFrame object.
  */
 public class BoardGrid extends Actor {
+    /**
+     * Square size.
+     */
     public static final int SQUARE_SIZE = 39;
+    /**
+     * Number of squares inside the grid.
+     */
     private static final int NUMBER_OF_SQUARES = 14;
+    /**
+     * Rect line width.
+     */
     private static final int LINE_WIDTH = 3;
+    /**
+     * ShapeRenderer object used to draw the lines.
+     */
     private ShapeRenderer shape;
+    /**
+     * Dimensions.
+     */
     private int width, height;
 
+    /**
+     * Class constructor.
+     */
     public BoardGrid() {
         this.width = SQUARE_SIZE * NUMBER_OF_SQUARES;
         this.height = SQUARE_SIZE * NUMBER_OF_SQUARES;
@@ -52,6 +71,7 @@ public class BoardGrid extends Actor {
         super.draw(batch, parentAlpha);
         batch.end();
 
+        // draw the lines
         shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(Color.BLACK);
         for (int row = 0; row <= NUMBER_OF_SQUARES; row++) {

@@ -8,13 +8,32 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
  * Represent Intersection class.
+ * The intersections hold the stones in the game.
  */
 public class Intersection extends Actor {
+    /**
+     * Dimensions.
+     */
     private int x, y, width, height;
+    /**
+     * ShapeRenderer object used to draw the stones.
+     */
     private ShapeRenderer shape;
-    private boolean clicked;
+    /**
+     * Current value of intersection. Can be white, black or empty.
+     */
     private IntersectionValue value;
+    /**
+     * Row and column used for intersections array.
+     */
+    private int row, col;
 
+    /**
+     * Class constructor.
+     *
+     * @param y int
+     * @param x int
+     */
     public Intersection(int y, int x) {
         this.width = 20;
         this.height = 20;
@@ -28,8 +47,20 @@ public class Intersection extends Actor {
         setBounds(x - width / 2, y - height / 2, width, height);
     }
 
-    public boolean isClicked() {
-        return clicked;
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public int getRow() {
+        return row;
     }
 
     public IntersectionValue getValue() {
@@ -59,24 +90,23 @@ public class Intersection extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-//        batch.end();
-//
-//        shape.begin(ShapeRenderer.ShapeType.Filled);
-//        shape.setColor(Color.WHITE);
-//        shape.rect(getX(), getY(), width, height);
-//        shape.end();
-//
-//        batch.begin();
+        batch.end();
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+
+        // draws the marked intersections in the middle and corners of the board
+        if ((row == 3 && col == 3) || (row == 3 && col == 11)
+                || (row == 7 && col == 7) || (row == 11 && col == 3)
+                || (row == 11 && col == 11)) {
+            shape.setColor(Color.BLACK);
+            shape.rect(getX() + width / 4, getY() + height / 4, width / 2, height / 2);
+        }
 
         if (!isEmpty()) {
-            batch.end();
-            shape.begin(ShapeRenderer.ShapeType.Filled);
-            shape.setColor((value == IntersectionValue.WHITE) ? Color.WHITE: Color.BLACK);
-            shape.circle(getX() + width / 2, getY() + height / 2, 15);
-            shape.end();
-
-            batch.begin();
+            shape.setColor((value == IntersectionValue.WHITE) ? Color.WHITE : Color.BLACK);
+            shape.circle(getX() + width / 2, getY() + height / 2, 18);
         }
+        shape.end();
+        batch.begin();
     }
 
     @Override

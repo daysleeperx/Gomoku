@@ -7,13 +7,21 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- * Represent BoardFrame frame.
+ * Represent Board frame.
  */
 public class BoardFrame extends Actor {
-
+    /**
+     * ShapeRenderer object used to draw the frame.
+     */
     private ShapeRenderer shape;
+    /**
+     * Dimensions.
+     */
     private float width, height;
 
+    /**
+     * Class constructor.
+     */
     public BoardFrame() {
         this.shape = new ShapeRenderer();
         this.shape.setAutoShapeType(true);
@@ -22,7 +30,6 @@ public class BoardFrame extends Actor {
         this.height = 600;
         setSize(width, height);
     }
-
 
 
     @Override
@@ -53,7 +60,7 @@ public class BoardFrame extends Actor {
         batch.end();
 
         shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.setColor(250 / 255f, 152 / 255f, 68 / 255f, 1);
+        shape.setColor(250 / 255f, 188 / 255f, 40 / 255f, 1);
         shape.rect(getX(), getY(), width, height);
         shape.end();
         shape.setColor(Color.WHITE); // reset color

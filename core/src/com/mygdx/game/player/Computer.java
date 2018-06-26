@@ -1,6 +1,4 @@
-package com.mygdx.game.player; /**
- * Viktor Pavlov (uniid, vpavlo)
- */
+package com.mygdx.game.player;
 
 import com.mygdx.game.board.Board;
 import com.mygdx.game.move.Coordinate;
@@ -10,12 +8,30 @@ import java.util.List;
 
 import static com.mygdx.game.board.Board.WIN_COUNT;
 
-
+/**
+ * AI computer strategy that implements minimax algorithm
+ * with alpha-beta pruning.
+ */
 public class Computer implements ComputerStrategy {
+    /**
+     * Best move stored as a instance variable.
+     */
     private Coordinate bestMove;
+    /**
+     * Killer move constant referring to the best possible move.
+     */
     private static final long KILLER_MOVE = 10000000;
+    /**
+     * Terminal state constant referring to a winning state in a game (five in a row).
+     */
     private static final long TERMINAL_STATE = 2000000000;
+    /**
+     * Time limit constant.
+     */
     private static final int TIME_LIMIT = 1000;
+    /**
+     * Maximum minimax depth.
+     */
     private int maxDepth;
     private int myPlayer;
     private long start;
@@ -23,9 +39,9 @@ public class Computer implements ComputerStrategy {
     /**
      * Get best move from a position.
      *
-     * @param board
-     * @param player
-     * @return
+     * @param board Board object.
+     * @param player int
+     * @return Coordinate object.
      */
     @Override
     public Coordinate getMove(Board board, int player) {
@@ -385,16 +401,5 @@ public class Computer implements ComputerStrategy {
      */
     private boolean isTimeOut() {
         return System.currentTimeMillis() - start >= TIME_LIMIT;
-    }
-
-    public static void main(String[] args) {
-        Board b = new Board();
-        for (int i = 0; i < 4; i++) {
-            b.setValue(0, i, 1);
-        }
-        b.printBoard();
-        Computer c = new Computer();
-        System.out.println(c.getMove(b, 1));
-        b.printBoard();
     }
 }

@@ -8,10 +8,11 @@ import com.mygdx.game.move.Coordinate;
  */
 public interface ComputerStrategy {
     /**
-     * Get best move from a position.
-     * @param board
-     * @param player
-     * @return
+     * Get best move from a given state.
+     *
+     * @param board Board object
+     * @param player int
+     * @return Coordinate object
      */
     Coordinate getMove(Board board, int player);
 }

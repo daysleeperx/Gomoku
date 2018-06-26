@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
@@ -17,9 +18,11 @@ import com.mygdx.game.gui.intersection.IntersectionValue;
 import com.mygdx.game.move.Coordinate;
 import com.mygdx.game.player.Computer;
 
-import java.util.Arrays;
-
 import static com.mygdx.game.gui.board.BoardGrid.SQUARE_SIZE;
+
+/**
+ * Main Gomoku Game class.
+ */
 
 public class GdxGame extends ApplicationAdapter implements InputProcessor {
     /**
@@ -27,8 +30,6 @@ public class GdxGame extends ApplicationAdapter implements InputProcessor {
      */
     private Game game;
     private Stage stage;
-    private BoardFrame boardFrame;
-    private BoardGrid grid;
     private IntersectionValue sideToMove;
     /**
      * Current player (Human):
@@ -60,13 +61,13 @@ public class GdxGame extends ApplicationAdapter implements InputProcessor {
         computer = new Computer();
         currentPlayer = IntersectionValue.WHITE;
         stage = new Stage(new ScreenViewport());
-        boardFrame = new BoardFrame();
-        grid = new BoardGrid();
+        BoardFrame boardFrame = new BoardFrame();
+        BoardGrid grid = new BoardGrid();
         sideToMove = IntersectionValue.WHITE;
-        boardFrame.setPosition(Gdx.graphics.getWidth() / 2 - boardFrame.getWidth() / 2,
+        boardFrame.setPosition(Gdx.graphics.getWidth() / 3 - boardFrame.getWidth() / 2,
                 Gdx.graphics.getHeight() / 2 - boardFrame.getHeight() / 2);
-        grid.setPosition(Gdx.graphics.getWidth() / 2 - grid.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - grid.getHeight() / 2);
+        grid.setPosition(Gdx.graphics.getWidth() / 3 - grid.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - grid.getHeight() / 2 );
         stage.addActor(boardFrame);
         stage.addActor(grid);
 
@@ -76,10 +77,10 @@ public class GdxGame extends ApplicationAdapter implements InputProcessor {
                 Intersection current = new Intersection((int) (grid.getY() + row * SQUARE_SIZE), (int) (grid.getX() + col * SQUARE_SIZE));
                 stage.addActor(current);
                 intersections[row][col] = current;
+                current.setRow(row);
+                current.setCol(col);
             }
         }
-        System.out.println(Arrays.deepToString(intersections));
-        board.printBoard();
         Gdx.input.setInputProcessor(this);
     }
 
@@ -89,13 +90,16 @@ public class GdxGame extends ApplicationAdapter implements InputProcessor {
         stage.act();
         stage.draw();
 
+        if (game.isGameOver()) {
+            System.out.println("GAME_OVER");
+//            Gdx.app.exit();
+        }
+
         if (sideToMove == IntersectionValue.BLACK) {
             Coordinate move = computer.getMove(board, sideToMove.getValue());
-            System.out.println(move);
             Intersection intersection = intersections[move.getRow()][move.getCol()];
             intersection.setValue(IntersectionValue.BLACK);
             board.setValue(move.getRow(), move.getCol(), -1);
-            board.printBoard();
             sideToMove = IntersectionValue.WHITE;
         }
     }
@@ -156,9 +160,8 @@ public class GdxGame extends ApplicationAdapter implements InputProcessor {
         if (sideToMove == currentPlayer && currentActor != null && currentActor instanceof Intersection) {
             if (((Intersection) currentActor).isEmpty()) {
                 ((Intersection) currentActor).setValue(IntersectionValue.WHITE);
-                board.printBoard();
+                board.setValue(((Intersection) currentActor).getRow(), ((Intersection) currentActor).getCol(), 1);
                 sideToMove = IntersectionValue.BLACK;
-                // TODO: coordinates to intersections array
             }
         }
         return true;
@@ -214,6 +217,7 @@ public class GdxGame extends ApplicationAdapter implements InputProcessor {
         return false;
     }
 }
+
 
 
 

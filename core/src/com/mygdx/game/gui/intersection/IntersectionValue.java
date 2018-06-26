@@ -1,5 +1,8 @@
 package com.mygdx.game.gui.intersection;
 
+/**
+ * Possible intersection values.
+ */
 public enum IntersectionValue {
     EMPTY(0),
     WHITE(1),

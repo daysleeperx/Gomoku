@@ -69,6 +69,10 @@ public class Board {
         return false;
     }
 
+    public void setBoard(int[][] board) {
+        this.board = board;
+    }
+
     /**
      * Return specific value from the board.
      *
@@ -120,7 +124,7 @@ public class Board {
      * Print board.
      */
     public void printBoard() {
-        for (int row = 0; row < HEIGHT; row++) {
+        for (int row = HEIGHT - 1; row >= 0; row--) {
             System.out.println(Arrays.toString(board[row]));
         }
         System.out.println("***********************************");
