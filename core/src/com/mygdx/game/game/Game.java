@@ -18,11 +18,21 @@ public class Game {
      */
     private Computer computer;
     /**
+     * Game status.
+     */
+    private GameStatus status;
+    /**
      * Create game.
      */
     public void createGame() {
         board = new Board();
         computer = new Computer();
+        status = GameStatus.OPEN;
+
+    }
+
+    public GameStatus getStatus() {
+        return status;
     }
 
     public Board getBoard() {
@@ -34,7 +44,7 @@ public class Game {
     }
 
     public boolean isGameOver() {
-        return checkForWin() || board.isFull();
+        return checkForWin() || isDraw();
     }
 
     /**
@@ -49,6 +59,7 @@ public class Game {
                 if (player != Board.EMPTY) {
                     if (row <= board.getHeight() - WIN_COUNT) {
                         if (countFive(board, row, col, 1, 0)) {
+
                             return true;
                         }
                         if (col > 3 && countFive(board, row, col, 1, -1)) {
@@ -84,6 +95,25 @@ public class Game {
         for (int i = 1; i < WIN_COUNT; i++) {
             if (board.getBoard()[row + i * deltaRow][column + i * deltaColumn] != player) return false;
         }
+        setStatus(player);
         return true;
+    }
+
+    private void setStatus(int player) {
+        switch (player) {
+            case 1 :
+                status = GameStatus.WHITE_WON;
+                break;
+            case -1:
+                status = GameStatus.BLACK_WON;
+        }
+    }
+
+    public boolean isDraw() {
+        if (!checkForWin() && board.isFull()) {
+            status = GameStatus.DRAW;
+            return true;
+        }
+        return false;
     }
 }

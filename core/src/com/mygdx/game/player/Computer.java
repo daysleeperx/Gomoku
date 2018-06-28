@@ -5,6 +5,7 @@ import com.mygdx.game.move.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static com.mygdx.game.board.Board.WIN_COUNT;
 
@@ -49,7 +50,7 @@ public class Computer implements ComputerStrategy {
         start = System.currentTimeMillis();
         maxDepth = (board.getWidth() == 20) ? 3 : 4;
 
-        if (boardIsEmpty(board)) return new Coordinate(4, (int) (Math.random() * 3 + 3));
+        if (boardIsEmpty(board)) return new Coordinate(7, new Random().nextInt(14));
         alphaBeta(board, maxDepth, Long.MIN_VALUE, Long.MAX_VALUE, myPlayer);
         return bestMove;
     }
@@ -266,7 +267,7 @@ public class Computer implements ComputerStrategy {
      * @return long
      */
     private long alphaBeta(Board board, int depth, long alpha, long beta, int player) {
-        if (depth == 0 || isTerminal(board))
+        if (depth == 0 || isTerminal(board) || isTimeOut())
             return heuristic(board, myPlayer, player);
 
         List<Coordinate> possibleMoves = getPossibleMoves(board);
