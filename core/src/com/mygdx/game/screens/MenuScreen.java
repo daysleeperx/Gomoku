@@ -5,14 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.mygdx.game.GdxGame;
 import com.mygdx.game.gui.intersection.IntersectionValue;
 
 public class MenuScreen implements Screen {
@@ -23,20 +23,40 @@ public class MenuScreen implements Screen {
         game = aGame;
         stage = new Stage(new ScreenViewport());
 
+        Image img = new Image(new Texture("gomoku.png"));
+        stage.addActor(img);
+        img.setPosition(Gdx.graphics.getWidth() / 2 - img.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2);
+
+
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = new BitmapFont(Gdx.files.internal("myfont2.fnt"));
         textButtonStyle.fontColor = Color.WHITE;
+        textButtonStyle.overFontColor = new Color(231 / 255f, 135 / 255f, 115 / 255f, 1);
         textButtonStyle.downFontColor = Color.BLACK;
-        textButtonStyle.checkedFontColor = Color.GREEN;
+        textButtonStyle.checkedFontColor = new Color(100 / 255f, 114 / 255f, 234 / 255f, 1);
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont(Gdx.files.internal("myfont2.fnt"));
+        labelStyle.fontColor = new Color(100 / 255f, 114 / 255f, 234 / 255f, 1);
+
+        Label label = new Label("Choose color!", labelStyle);
+        label.setPosition(Gdx.graphics.getWidth() / 2 - label.getWidth() / 2,
+                Gdx.graphics.getHeight() / 3 + label.getHeight());
+        stage.addActor(label);
+
+
+        Table table = new Table();
+
         final TextButton black = new TextButton("Black", textButtonStyle);
+//        black.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 4);
         stage.addActor(black);
 
 
-        TextButton white = new TextButton("White", textButtonStyle);
+        final TextButton white = new TextButton("White", textButtonStyle);
         white.setChecked(true);
-        white.setX(100);
+//        white.setPosition(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 4);
         stage.addActor(white);
-
 
         ButtonGroup<TextButton> buttonGroup = new ButtonGroup<TextButton>();
         buttonGroup.add(white);
@@ -45,11 +65,16 @@ public class MenuScreen implements Screen {
         buttonGroup.setMinCheckCount(1);
         buttonGroup.setUncheckLast(true);
 
+        table.add(white).pad(10);
+        table.add(black);
+        table.align(Align.center|Align.top);
+        table.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 3);
+        stage.addActor(table);
 
 
-        TextButton playButton = new TextButton("Play!", GdxGame.gameSkin);
-        playButton.setWidth(Gdx.graphics.getWidth() / 2);
-        playButton.setPosition(Gdx.graphics.getWidth() / 2 - playButton.getWidth() / 2, Gdx.graphics.getHeight() / 2 - playButton.getHeight() / 2);
+        TextButton playButton = new TextButton("Play!", textButtonStyle);
+        playButton.setWidth(100);
+        playButton.setPosition(Gdx.graphics.getWidth() / 2 - playButton.getWidth() / 2, Gdx.graphics.getHeight() / 5 - playButton.getHeight() / 2);
         playButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -63,9 +88,9 @@ public class MenuScreen implements Screen {
         });
         stage.addActor(playButton);
 
-        TextButton optionsButton = new TextButton("Exit", GdxGame.gameSkin);
+        TextButton optionsButton = new TextButton("Exit", textButtonStyle);
         optionsButton.setWidth(Gdx.graphics.getWidth() / 2);
-        optionsButton.setPosition(Gdx.graphics.getWidth() / 2 - optionsButton.getWidth() / 2, Gdx.graphics.getHeight() / 4 - optionsButton.getHeight() / 2);
+        optionsButton.setPosition(Gdx.graphics.getWidth() / 2 - optionsButton.getWidth() / 2, Gdx.graphics.getHeight() / 7 - optionsButton.getHeight());
         optionsButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {

@@ -28,7 +28,6 @@ public class Game {
         board = new Board();
         computer = new Computer();
         status = GameStatus.OPEN;
-
     }
 
     public GameStatus getStatus() {
@@ -95,11 +94,16 @@ public class Game {
         for (int i = 1; i < WIN_COUNT; i++) {
             if (board.getBoard()[row + i * deltaRow][column + i * deltaColumn] != player) return false;
         }
-        setStatus(player);
+        setWinner(player);
         return true;
     }
 
-    private void setStatus(int player) {
+    /**
+     * Set winner if five consecutive stones are found.
+     *
+     * @param player int
+     */
+    private void setWinner(int player) {
         switch (player) {
             case 1 :
                 status = GameStatus.WHITE_WON;

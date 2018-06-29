@@ -4,7 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,7 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.GdxGame;
 import com.mygdx.game.board.Board;
@@ -71,9 +76,9 @@ public class GameScreen implements InputProcessor, Screen {
         BoardFrame boardFrame = new BoardFrame();
         BoardGrid grid = new BoardGrid();
         sideToMove = IntersectionValue.WHITE;
-        boardFrame.setPosition(Gdx.graphics.getWidth() / 3 - boardFrame.getWidth() / 2,
+        boardFrame.setPosition(Gdx.graphics.getWidth() / 2 - boardFrame.getWidth() / 2,
                 Gdx.graphics.getHeight() / 2 - boardFrame.getHeight() / 2);
-        grid.setPosition(Gdx.graphics.getWidth() / 3 - grid.getWidth() / 2,
+        grid.setPosition(Gdx.graphics.getWidth() / 2 - grid.getWidth() / 2,
                 Gdx.graphics.getHeight() / 2 - grid.getHeight() / 2);
         stage.addActor(boardFrame);
         stage.addActor(grid);
@@ -247,16 +252,14 @@ public class GameScreen implements InputProcessor, Screen {
             }
 
         } else {
-            new Dialog(logicGame.getStatus().toString(), GdxGame.gameSkin) {
+            new Dialog(logicGame.getStatus().toString().replace("_", " "), GdxGame.gameSkin) {
                 {
-                    button("Yes").addListener(new ClickListener() {
+                    button("").addListener(new ClickListener() {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            game.setScreen(new GameScreen(game, IntersectionValue.WHITE));
+                            game.setScreen(new GameScreen(game, currentPlayer));
                         }
                     });
-
-                    setColor(0, 0, 0, 1);
                 }
 
                 /**
@@ -313,6 +316,16 @@ public class GameScreen implements InputProcessor, Screen {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+
+    Drawable createDrawable (Color c) {
+        Pixmap p = new Pixmap(4, 4, Pixmap.Format.RGBA8888);
+        p.setColor(c);
+        p.drawPixel(1, 1);
+        TextureAtlas atlas = new TextureAtlas();
+        atlas.addRegion("white", new Texture(p), 1, 1, 1, 1);
+        return new TextureRegionDrawable(atlas.findRegion("white"));
     }
 }
 
