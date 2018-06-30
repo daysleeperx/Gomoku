@@ -267,7 +267,7 @@ public class Computer implements ComputerStrategy {
      * @return long
      */
     private long alphaBeta(Board board, int depth, long alpha, long beta, int player) {
-        if (depth == 0 || isTerminal(board) || isTimeOut())
+        if (depth == 0 || isTerminal(board))
             return heuristic(board, myPlayer, player);
 
         List<Coordinate> possibleMoves = getPossibleMoves(board);

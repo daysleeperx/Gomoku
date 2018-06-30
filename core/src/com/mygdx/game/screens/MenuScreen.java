@@ -34,7 +34,7 @@ public class MenuScreen implements Screen {
         textButtonStyle.fontColor = Color.WHITE;
         textButtonStyle.overFontColor = new Color(231 / 255f, 135 / 255f, 115 / 255f, 1);
         textButtonStyle.downFontColor = Color.BLACK;
-        textButtonStyle.checkedFontColor = new Color(100 / 255f, 114 / 255f, 234 / 255f, 1);
+        textButtonStyle.checkedFontColor = new Color(231 / 255f, 135 / 255f, 115 / 255f, 1);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont(Gdx.files.internal("myfont2.fnt"));

@@ -164,6 +164,7 @@ public class GameScreen implements InputProcessor, Screen {
                 ((Intersection) currentActor).setValue(currentPlayer);
                 board.setValue(((Intersection) currentActor).getRow(), ((Intersection) currentActor).getCol(), currentPlayer.getValue());
                 sideToMove = (sideToMove == IntersectionValue.WHITE) ? IntersectionValue.BLACK : IntersectionValue.WHITE;
+                board.printBoard();
             }
         }
         return true;
@@ -249,6 +250,7 @@ public class GameScreen implements InputProcessor, Screen {
                 board.setValue(move.getRow(), move.getCol(), currentPlayer.getValue() * -1);
 //            board.setValue(move.getRow(), move.getCol(), sideToMove.getValue());
                 sideToMove = (sideToMove == IntersectionValue.WHITE) ? IntersectionValue.BLACK : IntersectionValue.WHITE;
+                board.printBoard();
             }
 
         } else {
@@ -316,16 +318,6 @@ public class GameScreen implements InputProcessor, Screen {
     @Override
     public void dispose() {
         stage.dispose();
-    }
-
-
-    Drawable createDrawable (Color c) {
-        Pixmap p = new Pixmap(4, 4, Pixmap.Format.RGBA8888);
-        p.setColor(c);
-        p.drawPixel(1, 1);
-        TextureAtlas atlas = new TextureAtlas();
-        atlas.addRegion("white", new Texture(p), 1, 1, 1, 1);
-        return new TextureRegionDrawable(atlas.findRegion("white"));
     }
 }
 
