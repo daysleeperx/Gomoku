@@ -4,11 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -17,8 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.GdxGame;
 import com.mygdx.game.board.Board;
@@ -84,7 +78,7 @@ public class GameScreen implements InputProcessor, Screen {
         stage.addActor(grid);
 
 
-        TextButton optionsButton = new TextButton("Back", GdxGame.gameSkin);
+        TextButton optionsButton = new TextButton("Back", MenuScreen.textButtonStyle);
         optionsButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -159,6 +153,7 @@ public class GameScreen implements InputProcessor, Screen {
         Vector2 coord = stage.screenToStageCoordinates(new Vector2((float) screenX, (float) screenY));
         Actor currentActor = stage.hit(coord.x, coord.y, false);
 
+        // player makes move
         if (!logicGame.isGameOver() && sideToMove == currentPlayer && currentActor != null && currentActor instanceof Intersection) {
             if (((Intersection) currentActor).isEmpty()) {
                 ((Intersection) currentActor).setValue(currentPlayer);
@@ -240,19 +235,16 @@ public class GameScreen implements InputProcessor, Screen {
         stage.act();
         stage.draw();
 
-
+        // if side to move is not current player - make computer move
         if (!logicGame.isGameOver()) {
             if (sideToMove != currentPlayer) {
                 Coordinate move = computer.getMove(board, sideToMove.getValue());
                 Intersection intersection = intersections[move.getRow()][move.getCol()];
                 intersection.setValue((currentPlayer == IntersectionValue.WHITE) ? IntersectionValue.BLACK : IntersectionValue.WHITE);
-//            intersection.setValue(sideToMove);
                 board.setValue(move.getRow(), move.getCol(), currentPlayer.getValue() * -1);
-//            board.setValue(move.getRow(), move.getCol(), sideToMove.getValue());
                 sideToMove = (sideToMove == IntersectionValue.WHITE) ? IntersectionValue.BLACK : IntersectionValue.WHITE;
                 board.printBoard();
             }
-
         } else {
             new Dialog(logicGame.getStatus().toString().replace("_", " "), GdxGame.gameSkin) {
                 {
@@ -318,6 +310,7 @@ public class GameScreen implements InputProcessor, Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        game.dispose();
     }
 }
 

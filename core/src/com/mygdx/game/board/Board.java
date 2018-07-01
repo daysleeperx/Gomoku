@@ -121,6 +121,20 @@ public class Board {
     }
 
     /**
+     * Check if board is empty.
+     *
+     * @return {@code true}, otherwise {@code false}
+     */
+    public boolean IsEmptyBoard() {
+        for (int row = 0; row < HEIGHT; row++) {
+            for (int col = 0; col < WIDTH; col++) {
+                if (!isEmpty(row, col)) return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Print board.
      */
     public void printBoard() {
@@ -130,10 +144,5 @@ public class Board {
         System.out.println("***********************************");
     }
 
-    public static void main(String[] args) {
-        Board board = new Board();
-        board.setValue(1, 1, 1);
-        board.printBoard();
-    }
 }
 

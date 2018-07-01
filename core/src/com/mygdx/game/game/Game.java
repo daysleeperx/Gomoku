@@ -58,7 +58,6 @@ public class Game {
                 if (player != Board.EMPTY) {
                     if (row <= board.getHeight() - WIN_COUNT) {
                         if (countFive(board, row, col, 1, 0)) {
-
                             return true;
                         }
                         if (col > 3 && countFive(board, row, col, 1, -1)) {

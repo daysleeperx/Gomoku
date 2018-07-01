@@ -15,9 +15,16 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.gui.intersection.IntersectionValue;
 
+/**
+ * Represent Menu Screen.
+ */
 public class MenuScreen implements Screen {
     private Stage stage;
     private Game game;
+    /**
+     * Text button style used also in Game Screen.
+     */
+    public static TextButton.TextButtonStyle textButtonStyle;
 
     public MenuScreen(Game aGame) {
         game = aGame;
@@ -28,8 +35,8 @@ public class MenuScreen implements Screen {
         img.setPosition(Gdx.graphics.getWidth() / 2 - img.getWidth() / 2,
                 Gdx.graphics.getHeight() / 2);
 
-
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        // declare styles
+        textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = new BitmapFont(Gdx.files.internal("myfont2.fnt"));
         textButtonStyle.fontColor = Color.WHITE;
         textButtonStyle.overFontColor = new Color(231 / 255f, 135 / 255f, 115 / 255f, 1);
@@ -49,15 +56,13 @@ public class MenuScreen implements Screen {
         Table table = new Table();
 
         final TextButton black = new TextButton("Black", textButtonStyle);
-//        black.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 4);
         stage.addActor(black);
-
 
         final TextButton white = new TextButton("White", textButtonStyle);
         white.setChecked(true);
-//        white.setPosition(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 4);
         stage.addActor(white);
 
+        // make a radio button style group
         ButtonGroup<TextButton> buttonGroup = new ButtonGroup<TextButton>();
         buttonGroup.add(white);
         buttonGroup.add(black);
@@ -78,6 +83,7 @@ public class MenuScreen implements Screen {
         playButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                // create new game screen with corresponding color
                 game.setScreen(new GameScreen(game, (black.isChecked()) ? IntersectionValue.BLACK : IntersectionValue.WHITE));
             }
 
@@ -167,5 +173,6 @@ public class MenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        game.dispose();
     }
 }

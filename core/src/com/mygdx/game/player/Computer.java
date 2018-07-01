@@ -40,7 +40,7 @@ public class Computer implements ComputerStrategy {
     /**
      * Get best move from a position.
      *
-     * @param board Board object.
+     * @param board  Board object.
      * @param player int
      * @return Coordinate object.
      */
@@ -50,7 +50,7 @@ public class Computer implements ComputerStrategy {
         start = System.currentTimeMillis();
         maxDepth = (board.getWidth() == 20) ? 3 : 4;
 
-        if (boardIsEmpty(board)) return new Coordinate(7, new Random().nextInt(14));
+        if (board.IsEmptyBoard()) return new Coordinate(7, new Random().nextInt(14));
         alphaBeta(board, maxDepth, Long.MIN_VALUE, Long.MAX_VALUE, myPlayer);
         return bestMove;
     }
@@ -318,7 +318,7 @@ public class Computer implements ComputerStrategy {
      * @return {@code true}, otherwise {@code false}
      */
     private boolean isTerminal(Board board) {
-        if (boardIsFull(board)) return true; // if draw
+        if (board.isFull()) return true; // if draw
 
         // try to find win
         for (int row = 0; row < board.getHeight(); row++) {
@@ -365,35 +365,6 @@ public class Computer implements ComputerStrategy {
         return true;
     }
 
-    /**
-     * Check if board is empty.
-     *
-     * @param board SimpleBoard object
-     * @return {@code true}, otherwise {@code false}
-     */
-    private boolean boardIsEmpty(Board board) {
-        for (int row = 0; row < board.getHeight(); row++) {
-            for (int col = 0; col < board.getWidth(); col++) {
-                if (!board.isEmpty(row, col)) return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Check if board is full.
-     *
-     * @param board SimpleBoard object
-     * @return @return {@code true}, otherwise {@code false}
-     */
-    private boolean boardIsFull(Board board) {
-        for (int row = 0; row < board.getHeight(); row++) {
-            for (int col = 0; col < board.getWidth(); col++) {
-                if (board.isEmpty(row, col)) return false;
-            }
-        }
-        return true;
-    }
 
     /**
      * Check if time limit is exceeded.
