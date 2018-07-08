@@ -4,4 +4,4 @@
 ```java
 java -jar gomoku-1.0.jar 
 ```
-![collage](https://user-images.githubusercontent.com/25648700/42108220-903d5cce-7be2-11e8-9601-65026a6033a7.jpg)
+![collage 1](https://user-images.githubusercontent.com/25648700/42423512-30d674c2-8304-11e8-9008-c7f2d1be331f.jpg)
